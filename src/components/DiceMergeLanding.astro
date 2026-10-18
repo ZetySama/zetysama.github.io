@@ -21,6 +21,8 @@ interface Props {
 const { utmSource } = Astro.props;
 const game = getGame('dice-merge')!;
 const href = playUrl(utmSource);
+// GoatCounter event name; every download button on the page reports the same one.
+const clickEvent = `play-click-${utmSource}`;
 
 const title = 'Dice Merge: Pixel Puzzle';
 const tagline = 'Zarları birleştir, zincirleme kombolar yap ve rekorunu kır.';
@@ -79,7 +81,7 @@ const steps = [
         <p class="hero__tagline enter" style="--i:3">{tagline}</p>
 
         <div class="enter" style="--i:4">
-          <a class="cta" href={href}>
+          <a class="cta" href={href} data-goatcounter-click={clickEvent}>
             <svg class="cta__icon" viewBox="0 0 8 8" width="20" height="20" shape-rendering="crispEdges" aria-hidden="true">
               <path d="M3 0h2v4h2v1h-1v1h-1v1h-2v-1h-1v-1h-1v-1h2z M0 7h8v1h-8z" fill="currentColor"></path>
             </svg>
@@ -155,7 +157,7 @@ const steps = [
         <Image src={game.icon} alt="" width={64} densities={[1, 2]} class="final__icon" />
         <h2>Rekor seni bekliyor</h2>
         <p>Tahtayı doldurmadan zincirleri kur, jokerleri doğru anda kullan.</p>
-        <a class="cta" href={href}>
+        <a class="cta" href={href} data-goatcounter-click={clickEvent}>
           <svg class="cta__icon" viewBox="0 0 8 8" width="20" height="20" shape-rendering="crispEdges" aria-hidden="true">
             <path d="M3 0h2v4h2v1h-1v1h-1v1h-2v-1h-1v-1h-1v-1h2z M0 7h8v1h-8z" fill="currentColor"></path>
           </svg>
@@ -171,11 +173,15 @@ const steps = [
       <a href={`${game.privacyPath}/`}>Gizlilik politikası</a>
       <a href="/contact/">İletişim</a>
     </nav>
+    <p class="foot__counter">
+      Bu sayfada çerez kullanmayan, anonim bir ziyaret sayacı (GoatCounter) kullanılır.
+      <span lang="en">This page uses a cookie-free, anonymous visit counter (GoatCounter).</span>
+    </p>
     <p>© {new Date().getFullYear()} Emberwick Games</p>
   </footer>
 
   <div class="sticky" aria-hidden="true">
-    <a class="sticky__btn" href={href} tabindex="-1">
+    <a class="sticky__btn" href={href} tabindex="-1" data-goatcounter-click={clickEvent}>
       <Image src={game.icon} alt="" width={32} densities={[1, 2]} />
       <span>Dice Merge'ü indir</span>
     </a>
@@ -577,6 +583,17 @@ const steps = [
 
   .foot p {
     margin: 0;
+  }
+
+  .foot .foot__counter {
+    max-width: 46ch;
+    margin: 0 auto 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .foot__counter span {
+    display: block;
+    margin-top: 0.25rem;
   }
 
   /* ---------- Sticky bar (only where scroll-driven animations exist) ---------- */
